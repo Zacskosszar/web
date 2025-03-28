@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Interaktív Történet - Több zenés háttér</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- Fejléc a történet címével és szövegével -->
+    <nav id="story-nav">
+      <h1 id="story-title">Interaktív Történet</h1>
+      <p id="story-text">Ez egy interaktív történet, melynek aláfestését egy HTML5 audio lejátszó biztosítja. A háttérzenék egy playlist-ben játszódnak le.</p>
+    </nav>
+
+    <!-- Hangerőszabályzó -->
+    <div id="volume-control">
+      <label for="volume-slider">Hangerő:</label>
+      <input id="volume-slider" type="range" min="0" max="100" value="50">
+    </div>
+
+    <!-- Láthatatlan háttérzene lejátszó -->
+    <audio id="bg-audio" loop></audio>
+
+    <!-- A történet választási területe -->
+    <div id="choices-container"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
