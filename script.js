@@ -1,72 +1,56 @@
-// Az audio elem referenciája
 const bgAudio = document.getElementById("bg-audio");
 
-// Globális változók a háttérzenéhez
-let currentPlaylist = [];   // Jelenlegi playlist (tömb)
-let currentTrackIndex = 0;  // Jelenleg lejátszott track indexe
+let currentPlaylist = [];   
+let currentTrackIndex = ;
 
-// A updateAudio függvény egy új "playlist"-et vár; ez lehet string (esetleg egyetlen szám),
-// vagy tömb. Ha stringet adsz meg, azt átalakítjuk egyelemű tömbbé.
+
 function updateAudio(newMusic) {
-  // Ha nincs megadva zene (null vagy üres), akkor leállítjuk
   if (!newMusic) {
     bgAudio.pause();
     currentPlaylist = [];
-    currentTrackIndex = 0;
+    currentTrackIndex = ;
     return;
   }
   
-  // Ha newMusic nem tömb, akkor csomagoljuk be egyelemű tömbbe
   let newPlaylist = Array.isArray(newMusic) ? newMusic : [newMusic];
   
-  // Ha a jelenlegi playlist megegyezik a kérttel, nem frissítünk (a zene folytatódik)
   if (JSON.stringify(currentPlaylist) === JSON.stringify(newPlaylist)) {
     return;
   }
   
-  // Új playlist esetén:
   currentPlaylist = newPlaylist;
-  currentTrackIndex = 0;
+  currentTrackIndex = ;
   bgAudio.src = currentPlaylist[currentTrackIndex];
   bgAudio.play();
 }
 
-// Ha a jelenlegi track véget ér, léptetjük a playlist-ben a következőre
 bgAudio.addEventListener("ended", () => {
-  if (currentPlaylist.length > 0) {
+  if (currentPlaylist.length > ) {
     currentTrackIndex = (currentTrackIndex + 1) % currentPlaylist.length;
     bgAudio.src = currentPlaylist[currentTrackIndex];
     bgAudio.play();
   }
 });
 
-// Kezdetben induljon a Reseblamblance.mp3
 updateAudio("Resemblance.mp3");
 
-// Hangerőszabályzó kezelése
 const volumeSlider = document.getElementById("volume-slider");
 volumeSlider.addEventListener("input", (event) => {
-  const volume = event.target.value / 100; // 0.0 - 1.0
+  const volume = event.target.value / 100;
   bgAudio.volume = volume;
 });
 
-// ---------------- Interaktív Történet kezelése ----------------
-
-// Globális állapot: inventory és karakterattribútumok
 var state = {
   inventory: [],
   attributes: {
-    batorsag: 0,
-    bolcsesseg: 0
+    batorsag: ,
+    bolcsesseg: 
   }
 };
 
-// (Opcionális) Állapot kijelző frissítése
 function updateStateDisplay() {
-  // Ezt bővítheted, ha meg szeretnéd jeleníteni pl. az inventory-t
 }
 
-// Alkalmazza a hatásokat (inventory, attribútum módosítások)
 function applyEffects(effects) {
   if (!effects) return;
   if (effects.inventory) {
@@ -74,19 +58,16 @@ function applyEffects(effects) {
   }
   if (effects.attributes) {
     for (let attr in effects.attributes) {
-      state.attributes[attr] = (state.attributes[attr] || 0) + effects.attributes[attr];
+      state.attributes[attr] = (state.attributes[attr] || ) + effects.attributes[attr];
     }
   }
   updateStateDisplay();
 }
 
-// ---------------- Történet csomópontok ----------------
-
 const stories = {
   kezdet: {
     title: "Az Ébredés",
     text: "Felébredsz egy elhagyatott kastélyban. Két ajtó áll előtted: az egyikből hideg szél és suttogások, a másikból meleg fény csalogat.",
-    // A Reseblamblance.mp3 az alap, de ha csak egy számot adunk, azt egyelemű listává alakítjuk.
     music: "Resemblance.mp3",
     choices: [
       { text: "Kövesd a hideg szél útját (bal)", next: "arnyakTerme" },
@@ -96,7 +77,6 @@ const stories = {
   arnyakTerme: {
     title: "Az Árnyak Terme",
     text: "Sötét fények és régi idézetek díszítik a falakat. Egy poros ládában megtalálod a Rejtett Kulcsot.",
-    // Itt egy playlist-et adunk meg (például három szám, amelyek folyamatosan jönnek):
     music: ["Archangel.mp3", "Strenghtof.mp3"],
     effects: {
       inventory: "Rejtett Kulcs"
@@ -109,7 +89,6 @@ const stories = {
   tortenetekCsarnoka: {
     title: "A Történetek Csarnoka",
     text: "Egy világos csarnok, régi festmények és emléktárgyak tárulnak eléd.",
-    // Itt is adhatunk egy playlist-et, akár 3 darabot:
     music: ["Forest.mp3"],
     choices: [
       { text: "Fedezd fel a festmények titkát", next: "festmenyek" },
@@ -119,7 +98,7 @@ const stories = {
   titkosSzoba: {
     title: "A Titkos Szoba",
     text: "Régi könyvek és képek sorakoznak, egy sarokban halvány fény világít.",
-    music: "titkosszoba.mp3", // Egyszerű egyetlen szám
+    music: "titkosszoba.mp3",
     choices: [
       { text: "Nyisd ki a fény mögötti ajtót", next: "varazsKert" },
       { text: "Olvasd el a poros naplót", next: "naplo" }
@@ -224,7 +203,7 @@ const stories = {
   },
   szellemek: {
     title: "Szellemek Üzenete",
-    text: "Ősi szellemek jelennek meg, hogy útmutatást adjanak. Hangjuk egyszerre hordozza az igazságot és a reményt.",
+    text: "Ősi szellemek jelennek meg, hogy útmutatást adjanak. Hangjuk egyszerre hordozja az igazságot és a reményt.",
     effects: {
       attributes: { bolcsesseg: 1 }
     },
@@ -259,11 +238,9 @@ const stories = {
     title: "A Megváltás Ösvénye",
     text: "A kastély titkai feltárultak, életed új irányt kapott. Köszönjük, hogy kalandoztál!",
     music: null,
-    choices: []  // Végállomás – itt opcionálisan kínálhatsz Újrakezdést
+    choices: [] 
   }
 };
-
-// ---------------- Eseménykezelés: Hover és Auto-select ----------------
 
 function attachHoverAutoSelectHandlers(element, nextKey) {
   element.addEventListener('mouseenter', function () {
@@ -291,29 +268,22 @@ function attachHoverAutoSelectHandlers(element, nextKey) {
   });
 }
 
-// ---------------- A Történet megjelenítése ----------------
-
 function showStory(key) {
   const story = stories[key];
 
-  // Frissítjük a fejlécet
   document.getElementById('story-title').innerText = story.title;
   document.getElementById('story-text').innerText = story.text;
 
-  // Frissítjük a háttérzenét: ha a csomópont rendelkezik "music" property-vel, akkor azzal frissítünk.
   updateAudio(story.music);
 
-  // Ha vannak hatások (inventory, attribútumváltozás), alkalmazzuk azokat
   if (story.effects) {
     applyEffects(story.effects);
   }
 
-  // Megkeressük a választási területet és ürítjük annak tartalmát
   const choicesContainer = document.getElementById('choices-container');
   choicesContainer.innerHTML = '';
 
-  // Ha nincs választási lehetőség (végállomás), kínáljunk "Újrakezdés" opciót
-  if (story.choices.length === 0) {
+  if (story.choices.length === ) {
     const restartDiv = document.createElement('div');
     restartDiv.className = 'choice-option single';
     restartDiv.innerText = 'Újrakezdés';
@@ -322,7 +292,6 @@ function showStory(key) {
     return;
   }
 
-  // Ha két választási lehetőség van, hozzunk létre egy bal és egy jobb opciót
   if (story.choices.length === 2) {
     const leftDiv = document.createElement('div');
     leftDiv.className = 'choice-option left';
@@ -339,7 +308,6 @@ function showStory(key) {
     choicesContainer.appendChild(leftDiv);
     choicesContainer.appendChild(rightDiv);
   } else if (story.choices.length === 1) {
-    // Egyetlen választási lehetőség esetén
     const singleDiv = document.createElement('div');
     singleDiv.className = 'choice-option single';
     singleDiv.innerText = story.choices[0].text;
@@ -347,7 +315,6 @@ function showStory(key) {
     attachHoverAutoSelectHandlers(singleDiv, story.choices[0].next);
     choicesContainer.appendChild(singleDiv);
   } else {
-    // Több, mint két opció esetén – gombok listája
     story.choices.forEach(choice => {
       const btn = document.createElement('button');
       btn.className = 'choice-option';
@@ -358,7 +325,5 @@ function showStory(key) {
     });
   }
 }
-
-// ---------------- A történet indítása ----------------
 
 showStory('kezdet');
